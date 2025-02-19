@@ -4,16 +4,18 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.githubmagic.data.model.PrInfoDto
 import com.example.githubmagic.data.remote.remote.GithubApi
+import com.example.githubmagic.data.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GithubPagingSource  @Inject constructor(private val githubApi: GithubApi) : PagingSource<Int, List<PrInfoDto>>(){
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, List<PrInfoDto>> {
+class GithubPagingSource @Inject constructor(private val githubApi: GithubApi) :
+    PagingSource<Int, PrInfoDto>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PrInfoDto> {
         val page = params.key ?: 1
         return try {
             // Fake API Data
-            var data = githubApi.getPrList("closed", page, 10)
+            var data = githubApi.getPrList("closed", page, Constants.PAGE_SIZE)
             LoadResult.Page(
                 data = data,
                 prevKey = if (page == 1) null else page - 1,
@@ -24,7 +26,7 @@ class GithubPagingSource  @Inject constructor(private val githubApi: GithubApi) 
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, String>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, PrInfoDto>): Int? {
         return state.anchorPosition
     }
 }
