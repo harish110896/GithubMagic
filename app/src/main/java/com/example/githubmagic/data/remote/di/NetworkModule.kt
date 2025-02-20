@@ -2,6 +2,8 @@ package com.example.githubmagic.data.remote.di
 
 
 import com.example.githubmagic.data.remote.remote.GithubApi
+import com.example.githubmagic.data.repository.GithubRepository
+import com.example.githubmagic.data.repository.impl.GithubRepositoryImpl
 import com.example.githubmagic.data.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -48,4 +50,5 @@ object NetworkModule {
     fun provideApiService(retrofit: Retrofit): GithubApi {
         return retrofit.create(GithubApi::class.java)
     }
+
 }
