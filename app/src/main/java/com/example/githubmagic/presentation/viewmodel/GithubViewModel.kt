@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.githubmagic.PrInfo
 import com.example.githubmagic.data.model.PrInfoDto
 import com.example.githubmagic.data.repository.GithubRepository
 import com.example.githubmagic.data.repository.GithubViewRepository
@@ -21,14 +22,14 @@ class GithubViewModel @Inject constructor(
     private val repository: GithubRepository
 ) : ViewModel() {
 
-    private val _posts = MutableStateFlow<PagingData<PrInfoDto>>(PagingData.empty())
-    val posts: StateFlow<PagingData<PrInfoDto>> = _posts.asStateFlow()
+    private val _posts = MutableStateFlow<PagingData<PrInfo>>(PagingData.empty())
+    val posts: StateFlow<PagingData<PrInfo>> = _posts.asStateFlow()
 
     init {
-        fetchPages("closed", 1, 10) // Default call on initialization
+        fetchPages()
     }
 
-    private fun fetchPages(state: String, page: Int, pageSize: Int) {
+    private fun fetchPages() {
         viewModelScope.launch {
             repository.getPagedPosts().cachedIn(viewModelScope)
                 .collectLatest { pagingData ->

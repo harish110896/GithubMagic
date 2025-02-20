@@ -4,6 +4,7 @@ package com.example.githubmagic.data.repository.impl
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.githubmagic.PrInfo
 import com.example.githubmagic.data.GithubPagingSource
 import com.example.githubmagic.data.model.PrInfoDto
 import com.example.githubmagic.data.remote.remote.GithubApi
@@ -18,7 +19,7 @@ class  GithubRepositoryImpl @Inject constructor(
     private val apiService: GithubApi  // Injected DAO for local storage
 ) : GithubRepository {
 
-    override suspend fun getPagedPosts(): Flow<PagingData<PrInfoDto>> {
+    override suspend fun getPagedPosts(): Flow<PagingData<PrInfo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
